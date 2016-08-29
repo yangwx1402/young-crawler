@@ -14,11 +14,11 @@ import scala.io.Source
  */
 class InjectActorTask extends Actor with InjectTask {
 
-  val indexerActor = context.actorOf(Props(new IndexActorTask(new ElasticIndexer)))
+  val indexerActor = context.actorOf(Props(new IndexActorTask(new ElasticIndexer)),"indexer")
 
-  val parserActor = context.actorOf(Props(new ParseActorTask(new HtmlParseParser, indexerActor)))
+  val parserActor = context.actorOf(Props(new ParseActorTask(new HtmlParseParser, indexerActor)),"parser")
 
-  val fetcher = context.actorOf(Props(new FetchActorTask(new HttpClientFetcher, parserActor)))
+  val fetcher = context.actorOf(Props(new FetchActorTask(new HttpClientFetcher, parserActor)),"fetcher")
 
   override def receive: Receive = {
     case init: InitSeed =>
