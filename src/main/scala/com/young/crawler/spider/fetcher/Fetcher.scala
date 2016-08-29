@@ -1,5 +1,6 @@
 package com.young.crawler.spider.fetcher
 
+import com.young.crawler.entity.HttpResult
 import com.young.crawler.exception.FetchException
 
 /**
@@ -12,5 +13,5 @@ trait Fetcher {
   val URL_NOT_FOUND = 404
 
   @throws[FetchException]
-  def fetchPage(url:String):String
+  def fetchPage(url:String):HttpResult
 }

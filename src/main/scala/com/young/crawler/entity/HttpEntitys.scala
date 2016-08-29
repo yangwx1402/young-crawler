@@ -5,7 +5,15 @@ import scala.beans.BeanProperty
 /**
  * Created by young.yang on 2016/8/28.
  */
-case class HttpResult(status:Int,content:String,message:String)
+case class HttpResult(status:Int,content:String,message:String,url:String){
+  override def toString()="status="+status+",context length="+content.length+",url="+url
+}
+
+case class UrlInfo(url:String,parent:String)
+
+case class IndexResult(status:Int)
+
+case class Seed(url:String)
 
 class HttpPage{
   @BeanProperty
@@ -13,7 +21,10 @@ class HttpPage{
   @BeanProperty
   var content:String=""
   @BeanProperty
-  var childLink:List[String] = List()
+  var childLink:List[UrlInfo] = List()
   @BeanProperty
   var meta:Map[String,String] = Map()
+
+  override def toString()="url="+url+",context length="+content.length
 }
+

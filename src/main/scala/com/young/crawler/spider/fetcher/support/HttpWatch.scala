@@ -18,16 +18,17 @@ class HttpWatch(userAgent:String = "Mozilla/5.0 (X11; U; Linux i686; zh-CN; rv:1
 
   private def doGet(url:String,encode:String = "utf-8"):HttpResult={
      val get = new HttpGet(url)
-     sendRequest(get,encode)
+     val result = sendRequest(get,encode)
+     HttpResult(result._1,result._2,result._3,url)
   }
 
-  private def sendRequest(request:HttpUriRequest,encode:String): HttpResult ={
+  private def sendRequest(request:HttpUriRequest,encode:String): (Int,String,String) ={
     val response = httpClient.execute(request)
     val statusCode = response.getStatusLine.getStatusCode
     val message = response.getStatusLine.getReasonPhrase
     val content = IOUtils.toString(response.getEntity.getContent,encode)
    // val content = IOUtil.toString(response.getEntity.getContent,encode)
-    HttpResult(statusCode,content,message)
+    (statusCode,content,message)
   }
 }
 

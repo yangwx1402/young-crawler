@@ -1,5 +1,6 @@
 package com.young.crawler.spider.fetcher.support
 
+import com.young.crawler.entity.HttpResult
 import com.young.crawler.exception.FetchException
 import com.young.crawler.spider.fetcher.Fetcher
 
@@ -8,10 +9,10 @@ import com.young.crawler.spider.fetcher.Fetcher
  */
 class HttpClientFetcher extends Fetcher{
   @throws[FetchException]
-  override def fetchPage(url: String): String = {
+  override def fetchPage(url: String): HttpResult = {
     val result = HttpWatch.get(url)
     if(result.status == FETCH_SUCCESS){
-      result.content
+      result
     }else{
       throw new FetchException("fetch error code is -"+result.status)
     }
