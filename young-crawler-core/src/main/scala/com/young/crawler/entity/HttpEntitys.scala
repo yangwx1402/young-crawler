@@ -1,5 +1,7 @@
 package com.young.crawler.entity
 
+import java.net.{DatagramSocket, DatagramPacket}
+
 import scala.beans.BeanProperty
 
 /**
@@ -26,5 +28,6 @@ class HttpPage{
   var meta:Map[String,String] = Map()
 
   override def toString()="url="+url+",context length="+content.length
+
 }
 

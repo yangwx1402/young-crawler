@@ -5,6 +5,7 @@ val httpClient_version = "4.4.1"
 val commons_io_version = "2.4"
 val commons_lang_version="3.4"
 val scala_version = "2.11.7"
+val elastic4s_version = "2.3.0"
 val codePro = Seq("-unchecked", "-deprecation", "-encoding", "utf8")
 val resources = Seq("Typesafe Repository" at "http://repo.typesafe.com/typesafe/releases/",
   "Maven Repository" at "http://repo1.maven.org/maven2/",
@@ -28,5 +29,6 @@ lazy val core = Project("young-crawler-core",file("young-crawler-core")).setting
   libraryDependencies +="org.apache.httpcomponents" % "httpmime" % httpClient_version,
   libraryDependencies +="org.apache.httpcomponents" % "httpcore" % httpClient_version,
   libraryDependencies += "commons-io" % "commons-io" % commons_io_version,
-  libraryDependencies +="org.apache.commons" % "commons-lang3" % commons_lang_version
+  libraryDependencies +="org.apache.commons" % "commons-lang3" % commons_lang_version,
+  libraryDependencies += "com.sksamuel.elastic4s" %% "elastic4s-core" % elastic4s_version
 )
