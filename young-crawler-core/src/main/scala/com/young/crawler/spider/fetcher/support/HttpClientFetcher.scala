@@ -7,14 +7,18 @@ import com.young.crawler.spider.fetcher.Fetcher
 /**
  * Created by young.yang on 2016/8/28.
  */
-class HttpClientFetcher extends Fetcher{
+class HttpClientFetcher extends Fetcher {
   @throws[FetchException]
   override def fetchPage(url: String): HttpResult = {
-    val result = HttpWatch.get(url)
-    if(result.status == FETCH_SUCCESS){
-      result
-    }else{
-      throw new FetchException("fetch error code is -"+result.status)
+    try {
+      val result = HttpWatch.get(url)
+      if (result.status == FETCH_SUCCESS) {
+        result
+      } else {
+        throw new FetchException("fetch error code is -" + result.status)
+      }
+    } catch {
+      case e => throw new FetchException("fetch error message", e)
     }
   }
 }
