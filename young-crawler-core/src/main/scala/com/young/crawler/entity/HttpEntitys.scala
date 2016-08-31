@@ -19,9 +19,19 @@ case class Seed(url:String)
 
 class HttpPage{
   @BeanProperty
-  var url:String = ""
+  var url: String = ""
   @BeanProperty
-  var content:String=""
+  var title: String = ""
+  @BeanProperty
+  var html:String = ""
+  @BeanProperty
+  var content: String = ""
+  @BeanProperty
+  var publishTime: Long = 0
+  @BeanProperty
+  var updateTime: Long = 0
+  @BeanProperty
+  var author: String = ""
   @BeanProperty
   var childLink:List[UrlInfo] = List()
   @BeanProperty

@@ -13,10 +13,14 @@ class FetchActorTask(fetcher:Fetcher,parserTask: ActorRef) extends Actor with Fe
 
   private val log = Logging(context.system, this)
 
+  private var injector:ActorRef = null
+
   override def receive: Receive = {
     case page:UrlInfo =>
+      injector = sender()
       val httpResult = fetcher.fetchPage(page.url)
       parserTask!httpResult
       log.info("FetcherTask send parserTask a httpResult ["+httpResult+"]")
+    case urls:List[UrlInfo]=>injector!urls
   }
 }

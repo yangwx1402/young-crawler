@@ -7,6 +7,7 @@ import com.young.crawler.entity.{IndexResult, HttpPage}
  */
 trait Indexer {
 
+
   def index(page:HttpPage):IndexResult
 }
 

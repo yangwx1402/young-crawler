@@ -13,10 +13,14 @@ class ParseActorTask(parser: Parser,indexTask:ActorRef) extends Actor with Parse
 
   private val log = Logging(context.system, this)
 
+  private var fetcher:ActorRef = null
+
   override def receive: Receive = {
     case httpResult: HttpResult =>
+      fetcher = sender()
       val page:HttpPage = parser.parse(httpResult)
       indexTask!page
       log.info("ParserTask send IndexerTask a index request -["+page+"]")
+      fetcher!page.getChildLink
   }
 }
