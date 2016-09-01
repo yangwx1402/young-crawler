@@ -18,5 +18,8 @@ class PageIndexEntity {
   var updateTime: Long = 0
   @BeanProperty
   var author: String = ""
-
+  @BeanProperty
+  var keywords:String =""
+  @BeanProperty
+  var desc:String = ""
 }

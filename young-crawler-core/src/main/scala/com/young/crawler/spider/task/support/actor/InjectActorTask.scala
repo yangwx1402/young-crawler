@@ -1,6 +1,7 @@
 package com.young.crawler.spider.task.support.actor
 
 import akka.actor.{ActorRef, Actor, Props}
+import akka.event.Logging
 import com.young.crawler.entity.{UrlInfo, InitSeed, Seed}
 import com.young.crawler.spider.fetcher.support.HttpClientFetcher
 import com.young.crawler.spider.indexer.support.ElasticIndexer
@@ -13,13 +14,14 @@ import scala.io.Source
  * Created by dell on 2016/8/29.
  */
 class InjectActorTask(fetcher:ActorRef) extends Actor with InjectTask {
-
+  private val log = Logging(context.system, this)
   override def receive: Receive = {
     case init: InitSeed =>
       val seeds = initSeeds(init.seedPath, init.fileEncode)
-      println(seeds)
+      log.info("init seeds -"+seeds)
       seeds.map(seed => fetcher ! UrlInfo(seed.url,null))
     case urls:List[UrlInfo]=>
+      log.info("inject urls -"+urls)
       urls.map(seed=>fetcher!seed)
   }
 

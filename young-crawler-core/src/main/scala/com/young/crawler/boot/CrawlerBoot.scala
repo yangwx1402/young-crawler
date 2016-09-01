@@ -33,7 +33,7 @@ object CrawlerBoot {
   def main(args: Array[String]) {
     val seedPath = CrawlerBoot.getClass.getResource("/").getPath+File.separator+"seeds.txt"
     CrawlerBoot.start(seedPath)
-    Thread.sleep(10000)
-    CrawlerBoot.stop()
+    //Thread.sleep(20000)
+   // CrawlerBoot.stop()
   }
 }

@@ -33,6 +33,10 @@ class HttpPage{
   @BeanProperty
   var author: String = ""
   @BeanProperty
+  var keywords:String = ""
+  @BeanProperty
+  var desc:String = ""
+  @BeanProperty
   var childLink:List[UrlInfo] = List()
   @BeanProperty
   var meta:Map[String,String] = Map()

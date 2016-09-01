@@ -14,7 +14,7 @@ object JsoupExample {
     val html = Jsoup.parse(page.content)
     println(html.charset())
     println(html.title())
-    println(html.head().select("meta"))
+    println(html.body().select("a"))
   }
 
   def main(args: Array[String]) {

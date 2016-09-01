@@ -8,6 +8,7 @@ val scala_version = "2.11.7"
 val elastic4s_version = "2.3.0"
 val jackson_version="1.9.13"
 val jsoup_version = "1.8.3"
+val commons_logging_version="1.2"
 val codePro = Seq("-unchecked", "-deprecation", "-encoding", "utf8")
 val resources = Seq("Typesafe Repository" at "http://repo.typesafe.com/typesafe/releases/",
   "Maven Repository" at "http://repo1.maven.org/maven2/",
@@ -35,5 +36,6 @@ lazy val core = Project("young-crawler-core",file("young-crawler-core")).setting
   libraryDependencies += "com.sksamuel.elastic4s" %% "elastic4s-core" % elastic4s_version,
   libraryDependencies += "org.codehaus.jackson" % "jackson-core-asl" % jackson_version,
   libraryDependencies += "org.codehaus.jackson" % "jackson-mapper-asl" % jackson_version,
-  libraryDependencies += "org.jsoup" % "jsoup" % jsoup_version
+  libraryDependencies += "org.jsoup" % "jsoup" % jsoup_version,
+  libraryDependencies += "commons-logging" % "commons-logging" % commons_logging_version
 )
