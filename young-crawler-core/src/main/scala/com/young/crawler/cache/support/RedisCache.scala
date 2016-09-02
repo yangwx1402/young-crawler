@@ -4,6 +4,7 @@ import com.young.crawler.cache.Cache
 
 /**
  * Created by dell on 2016/9/2.
+ * 采用Redis实现的缓存
  */
 class RedisCache[KEY,VALUE] extends Cache[KEY,VALUE]{
   override def contains(key: KEY): Boolean = ???

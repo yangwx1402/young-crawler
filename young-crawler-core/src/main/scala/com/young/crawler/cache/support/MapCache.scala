@@ -7,6 +7,7 @@ import scala.collection.mutable
 
 /**
  * Created by dell on 2016/9/2.
+ * 采用本地Map实现的缓存
  */
 class MapCache[KEY,VALUE] extends Cache[KEY,VALUE]{
 

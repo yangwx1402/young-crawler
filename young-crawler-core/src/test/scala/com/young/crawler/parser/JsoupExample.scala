@@ -15,14 +15,14 @@ object JsoupExample {
     println(page)
     val page1 = fetcher.fetchPage(url)
     println(page1)
-//    val result = parser.parse(page.get)
-//    println(result.keywords)
-//    println(result.desc)
-//    result.childLink.foreach(println _)
+    val result = parser.parse(page.get)
+    println(result.keywords)
+    println(result.desc)
+    result.childLink.foreach(println _)
   }
 
   def main(args: Array[String]) {
-    val url = "http://weather.sina.com.cn/"
+    val url = "http://bj.fang.com/"
     JsoupExample.parserHtml(url)
 
   }

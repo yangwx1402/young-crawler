@@ -9,6 +9,7 @@ import scala.collection.mutable.ListBuffer
 
 /**
  * Created by young.yang on 2016/8/31.
+ * Jsoup解析器
  */
 class JsoupParser extends Parser {
 
@@ -16,6 +17,12 @@ class JsoupParser extends Parser {
 
   private val DESCRIPTION = "description"
 
+  /**
+   * 解析meta信息
+   * @param key
+   * @param meta
+   * @return
+   */
   private def getMeta(key: String, meta: Elements): String = {
     for (i <- 0 until meta.size()) {
       val element = meta.get(i)
@@ -26,6 +33,9 @@ class JsoupParser extends Parser {
     ""
   }
 
+  /**
+   * 解析子url
+   */
   private def parserUrls(urls: Elements): List[UrlInfo] = {
     val list = new ListBuffer[UrlInfo]()
     for (i <- 0 until urls.size()) {
@@ -37,6 +47,11 @@ class JsoupParser extends Parser {
     list.toList
   }
 
+  /**
+   * 解析具体实现
+   * @param html
+   * @return
+   */
   override def parse(html: HttpResult): HttpPage = {
     val htmlPage = new HttpPage
     val document = Jsoup.parse(html.content)

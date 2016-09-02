@@ -12,11 +12,17 @@ import com.young.crawler.spider.task.support.actor.{FetchActorTask, ParseActorTa
 
 /**
  * Created by dell on 2016/8/29.
+ * 爬虫主函数
  */
 object CrawlerBoot {
 
   private val system = ActorSystem("young-crawler")
 
+  /**
+   * 爬虫启动函数
+   * @param seedPath 种子文件路径
+   * @param parallel  并行爬取任务数
+   */
   def start(seedPath: String, parallel: Int = 1): Unit = {
     val initSeeds = InitSeed(seedPath)
     //每个角色的actor都可以通过组组成一组actor进行处理
@@ -27,6 +33,9 @@ object CrawlerBoot {
     injectActor ! initSeeds
   }
 
+  /**
+   * 停止爬虫程序
+   */
   def stop(): Unit = {
     system.terminate()
   }

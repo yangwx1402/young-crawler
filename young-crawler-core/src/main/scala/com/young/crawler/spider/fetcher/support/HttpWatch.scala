@@ -42,9 +42,4 @@ object  HttpWatch{
   private val httpWatch = new HttpWatch
   def get(url:String,encode:String = "utf-8"):HttpResult = httpWatch.doGet(url,encode)
   def header(url:String):Array[Header] = httpWatch.doHeader(url)
-
-  def main(args: Array[String]) {
-    val result = HttpWatch.header("http://www.163.com")
-
-  }
 }

@@ -7,10 +7,9 @@ import org.apache.http.Header
 
 /**
  * Created by young.yang on 2016/8/28.
+ * 爬取接口
  */
 trait Fetcher {
-
-  protected val fetcherCache = new MapCache[String,Byte]
 
   private val CONTENT_TYPE = "Content-Type"
 
@@ -20,9 +19,17 @@ trait Fetcher {
 
   val URL_NOT_FOUND = 404
 
+  /**
+   * 爬取网页入口
+   */
   @throws[FetchException]
   def fetchPage(url:String):Option[HttpResult]
 
+  /**
+   * 根据网页header来探测网页编码
+   * @param headers
+   * @return
+   */
   def getEncode(headers:Array[Header]):String={
     for(header<-headers){
       if(CONTENT_TYPE.equals(header.getName)){

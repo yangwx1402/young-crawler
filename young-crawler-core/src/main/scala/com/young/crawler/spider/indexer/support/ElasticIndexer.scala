@@ -11,6 +11,7 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress
 
 /**
  * Created by dell on 2016/8/29.
+ * ES索引器
  */
 class ElasticIndexer extends Indexer{
 
@@ -18,6 +19,11 @@ class ElasticIndexer extends Indexer{
 
   private val client = TransportClient.builder().build().addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("115.29.47.216"), 9300))
 
+  /**
+   * 索引网页信息
+   * @param htmlpage
+   * @return
+   */
   override def index(htmlpage: HttpPage): IndexResult = {
     log.info("index page url "+htmlpage.getUrl+" page info -["+htmlpage+"]")
     val page = new PageIndexEntity

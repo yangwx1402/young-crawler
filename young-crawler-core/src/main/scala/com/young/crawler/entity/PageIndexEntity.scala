@@ -4,6 +4,7 @@ import scala.beans.BeanProperty
 
 /**
  * Created by dell on 2016/8/31.
+ * 索引信息
  */
 class PageIndexEntity {
   @BeanProperty
