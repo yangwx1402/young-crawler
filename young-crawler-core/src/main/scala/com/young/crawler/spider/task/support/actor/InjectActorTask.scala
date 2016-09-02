@@ -22,7 +22,7 @@ class InjectActorTask(fetcher:ActorRef) extends Actor with InjectTask {
       seeds.map(seed => fetcher ! UrlInfo(seed.url,null))
     case urls:List[UrlInfo]=>
       log.info("inject urls -"+urls)
-      urls.map(seed=>fetcher!seed)
+      urls.filter(seed=>seed.url.startsWith("http")).map(seed=>fetcher!seed)
   }
 
   override def initSeeds(seedPath: String, fileEncode: String = "utf-8"): List[Seed] = Source.fromFile(seedPath, fileEncode).getLines().map(line => Seed(line)).toList

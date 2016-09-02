@@ -3,6 +3,7 @@ package com.young.crawler.spider.fetcher.support
 import com.young.crawler.entity.HttpResult
 import com.young.crawler.exception.FetchException
 import com.young.crawler.spider.fetcher.Fetcher
+import com.young.crawler.utils.MD5Util
 import org.apache.commons.logging.LogFactory
 
 /**
@@ -11,7 +12,11 @@ import org.apache.commons.logging.LogFactory
 class HttpClientFetcher extends Fetcher {
   private val log = LogFactory.getLog(classOf[HttpClientFetcher])
   @throws[FetchException]
-  override def fetchPage(url: String): HttpResult = {
+  override def fetchPage(url: String): Option[HttpResult] = {
+    val md5 = MD5Util.md5(url)
+    if(fetcherCache.contains(md5)){
+      return None
+    }
     try {
       val headers = HttpWatch.header(url)
       val encode = getEncode(headers)
@@ -20,7 +25,8 @@ class HttpClientFetcher extends Fetcher {
       val result = HttpWatch.get(url,encode)
       log.info("fetch url "+url+", cost time -"+(System.currentTimeMillis()-start))
       if (result.status == FETCH_SUCCESS) {
-        result
+        fetcherCache.put(md5,1)
+        Option(result)
       } else {
         throw new FetchException("fetch error code is -" + result.status+",error url is "+url)
       }

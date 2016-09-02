@@ -1,5 +1,6 @@
 package com.young.crawler.spider.fetcher
 
+import com.young.crawler.cache.support.MapCache
 import com.young.crawler.entity.HttpResult
 import com.young.crawler.exception.FetchException
 import org.apache.http.Header
@@ -8,6 +9,8 @@ import org.apache.http.Header
  * Created by young.yang on 2016/8/28.
  */
 trait Fetcher {
+
+  protected val fetcherCache = new MapCache[String,Byte]
 
   private val CONTENT_TYPE = "Content-Type"
 
@@ -18,7 +21,7 @@ trait Fetcher {
   val URL_NOT_FOUND = 404
 
   @throws[FetchException]
-  def fetchPage(url:String):HttpResult
+  def fetchPage(url:String):Option[HttpResult]
 
   def getEncode(headers:Array[Header]):String={
     for(header<-headers){

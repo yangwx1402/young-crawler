@@ -10,7 +10,7 @@ import org.apache.http.Header
 /**
  * Created by young.yang on 2016/8/28.
  */
-class HttpWatch(userAgent:String = "Mozilla/5.0 (X11; U; Linux i686; zh-CN; rv:1.9.1.2) Gecko/20090803 Fedora/3.5.2-2.fc11 Firefox/3.5.2",timeout:Int = 3000,poolSize:Int=100) {
+class HttpWatch(userAgent:String = "Mozilla/5.0 (X11; U; Linux i686; zh-CN; rv:1.9.1.2) Gecko/20090803 Fedora/3.5.2-2.fc11 Firefox/3.5.2",timeout:Int = 10000,poolSize:Int=100) {
 
   private val defaultRequestConfig = RequestConfig.custom().setSocketTimeout(timeout).setConnectTimeout(timeout).build()
 
