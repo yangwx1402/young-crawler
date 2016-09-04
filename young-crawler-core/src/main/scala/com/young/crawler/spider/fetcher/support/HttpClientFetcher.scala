@@ -17,6 +17,7 @@ class HttpClientFetcher extends Fetcher {
     val md5 = MD5Util.md5(url)
     log.info("fetcher cache size -"+FetcherCache.fetcherCache.size())
     if(FetcherCache.fetcherCache.contains(md5)){
+      log.info("url  -"+url+" is fetched ")
       return None
     }else{
       FetcherCache.fetcherCache.put(md5,1)
@@ -27,7 +28,7 @@ class HttpClientFetcher extends Fetcher {
       log.info("get "+url+" encode ="+encode)
       val start = System.currentTimeMillis()
       val result = HttpWatch.get(url,encode)
-      log.info("fetch url "+url+", cost time -"+(System.currentTimeMillis()-start))
+      log.info("fetch url "+url+", cost time -"+(System.currentTimeMillis()-start)+" content length -"+result.content.length)
       if (result.status == FETCH_SUCCESS) {
         Option(result)
       } else {

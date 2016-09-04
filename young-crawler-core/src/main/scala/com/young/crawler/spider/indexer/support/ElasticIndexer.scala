@@ -2,6 +2,7 @@ package com.young.crawler.spider.indexer.support
 
 import java.net.InetAddress
 
+import com.young.crawler.config.{CrawlerConfigContants, CrawlerConfig}
 import com.young.crawler.entity.{PageIndexEntity, IndexResult, HttpPage}
 import com.young.crawler.spider.indexer.{IndexerConstants, Indexer}
 import com.young.crawler.utils.{JsonUtil, MD5Util}
@@ -13,11 +14,15 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress
  * Created by dell on 2016/8/29.
  * ES索引器
  */
-class ElasticIndexer extends Indexer{
+private[crawler] class ElasticIndexer extends Indexer{
 
   private val log = LogFactory.getLog(classOf[ElasticIndexer])
 
-  private val client = TransportClient.builder().build().addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("115.29.47.216"), 9300))
+  private val host = CrawlerConfig.getConfig.getString(CrawlerConfigContants.young_crawler_indexer_es_host)
+
+  private val port = CrawlerConfig.getConfig.getString(CrawlerConfigContants.young_crawler_indexer_es_port).toInt
+
+  private val client = TransportClient.builder().build().addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port))
 
   /**
    * 索引网页信息
@@ -28,7 +33,7 @@ class ElasticIndexer extends Indexer{
     log.info("index page url "+htmlpage.getUrl+" page info -["+htmlpage+"]")
     val page = new PageIndexEntity
     page.setAuthor(htmlpage.getAuthor)
-    page.setContent(htmlpage.getContent)
+   // page.setContent(htmlpage.getContent)
     page.setTitle(htmlpage.getTitle)
     page.setUrl(htmlpage.getUrl)
     page.setPublishTime(htmlpage.getPublishTime)

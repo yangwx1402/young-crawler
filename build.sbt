@@ -1,4 +1,5 @@
 import sbt.Keys._
+logLevel := Level.Warn
 val project_version = "1.0"
 val akka_version = "2.4.8"
 val httpClient_version = "4.4.1"
@@ -12,21 +13,15 @@ val commons_logging_version="1.2"
 val codePro = Seq("-unchecked", "-deprecation", "-encoding", "utf8")
 val resources = Seq("Typesafe Repository" at "http://repo.typesafe.com/typesafe/releases/",
   "Maven Repository" at "http://repo1.maven.org/maven2/",
-  "maven-restlet" at "http://maven.restlet.org")
-lazy val root = Project("young-crawler",file(".")).settings(publish := {}).settings(publishArtifact := false)
-  .settings(
-    name := "young-crawler",
-    version := project_version,
-    scalaVersion := scala_version,
-    scalacOptions := codePro
-  ).aggregate(core)
+  "maven-restlet" at "http://maven.restlet.org",
+  "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/")
 
-lazy val core = Project("young-crawler-core",file("young-crawler-core")).settings(
+val crawler = Project("young-crawler-core",file("young-crawler-core")).settings(
   name :="young-crawler-core",
   version := project_version,
+  resolvers ++= resources,
   scalaVersion := scala_version,
   scalacOptions := codePro,
-  resolvers ++= resources,
   libraryDependencies += "com.typesafe.akka" %% "akka-actor" % akka_version,
   libraryDependencies +="org.apache.httpcomponents" % "httpclient" % httpClient_version,
   libraryDependencies +="org.apache.httpcomponents" % "httpmime" % httpClient_version,
@@ -39,3 +34,12 @@ lazy val core = Project("young-crawler-core",file("young-crawler-core")).setting
   libraryDependencies += "org.jsoup" % "jsoup" % jsoup_version,
   libraryDependencies += "commons-logging" % "commons-logging" % commons_logging_version
 )
+
+val root = Project("young-crawler",file(".")).settings(publish := {}).settings(publishArtifact := false)
+  .settings(
+    name := "young-crawler",
+    resolvers ++= resources,
+    version := project_version,
+    scalaVersion := scala_version,
+    scalacOptions := codePro
+  ).aggregate(crawler)

@@ -1,11 +1,13 @@
 package com.young.crawler.spider.fetcher
 
 import com.young.crawler.cache.support.MapCache
+import com.young.crawler.config.{CrawlerConfigContants, CrawlerConfig}
 
 /**
  * Created by young.yang on 2016/9/2.
  * 网页缓存,用来爬取过程中的去重
  */
-object FetcherCache {
-   val fetcherCache = new MapCache[String,Byte]
+private[crawler] object FetcherCache {
+   //val fetcherCache = new MapCache[String,Byte]
+   val fetcherCache : MapCache[String,Byte] = Class.forName(CrawlerConfig.getConfig.getString(CrawlerConfigContants.young_crawler_fetcher_cache_imp)).newInstance().asInstanceOf[(MapCache[String,Byte])]
 }

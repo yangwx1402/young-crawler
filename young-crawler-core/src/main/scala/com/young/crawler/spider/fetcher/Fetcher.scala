@@ -1,6 +1,5 @@
 package com.young.crawler.spider.fetcher
 
-import com.young.crawler.cache.support.MapCache
 import com.young.crawler.entity.HttpResult
 import com.young.crawler.exception.FetchException
 import org.apache.http.Header

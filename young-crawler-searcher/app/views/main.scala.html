@@ -1,0 +1,33 @@
+@(message: String)
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>@message</title>
+            <!-- Custom Theme files -->
+        <link href='@routes.Assets.at("stylesheets/style.css")' rel="stylesheet" type="text/css" media="all"/>
+            <!-- Custom Theme files -->
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="keywords" content="" />
+            <!--Google Fonts-->
+        <link href='@routes.Assets.at("stylesheets/google.css")' rel='stylesheet' type='text/css'>
+            <!--Google Fonts-->
+    </head>
+    <body>
+            <!--main start here-->
+        <div class="search">
+            <i> </i>
+            <div class="s-bar">
+                <form action="/search" method="get">
+                    <input type="text" name="q" value="请输入关键字" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '请输入关键字';}">
+                    <input type="submit"  value="Search"/>
+                </form>
+            </div>
+            <p>热门搜索:<a href="/search?q=王宝强离婚">王宝强离婚,</a> <a href="/search?q=G20峰会"> G20峰会 </a></p>
+        </div>
+            <!--main end here-->
+        <div class="copyright">
+            <p>2016 搜 索 引 擎 版 权 归 young 所 有,github 地 址 是 <a href="https://www.github.com/yangwx1402" target="_blank"> yangwx1402</a> </p>
+        </div>
+    </body>
+</html>

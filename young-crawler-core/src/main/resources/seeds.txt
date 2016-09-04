@@ -1,7 +1,7 @@
-#http://www.sina.com.cn
-#http://www.baidu.com
-#http://www.163.com
-#http://www.sohu.com
-#http://www.ifeng.com
-#http://www.autohome.com.cn/beijing
+http://www.sina.com.cn
+http://www.baidu.com
+http://www.163.com
+http://www.sohu.com
+http://www.ifeng.com
+http://www.autohome.com.cn/beijing
 http://bj.fang.com
