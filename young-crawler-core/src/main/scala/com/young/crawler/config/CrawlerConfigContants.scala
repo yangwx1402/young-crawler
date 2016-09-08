@@ -9,6 +9,7 @@ private[crawler] object CrawlerConfigContants {
   val young_crawler_task_fetch_name = "young.crawler.task.fetch.name"
   val young_crawler_task_parse_name = "young.crawler.task.parse.name"
   val young_crawler_task_index_name = "young.crawler.task.index.name"
+  val young_crawler_task_count_name = "young.cralwer.task.count.name"
   val young_crawler_task_seed_path = "young.crawler.task.seed.path"
   val young_crawler_task_parallel_int = "young.crawler.task.parallel.int"
   val young_crawler_fetcher_cache_imp = "young.crawler.fetcher.cache.imp"

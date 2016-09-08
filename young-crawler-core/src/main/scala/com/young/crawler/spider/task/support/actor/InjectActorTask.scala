@@ -2,7 +2,8 @@ package com.young.crawler.spider.task.support.actor
 
 import akka.actor.{ActorRef, Actor, Props}
 import akka.event.Logging
-import com.young.crawler.entity.{UrlInfo, InitSeed, Seed}
+import com.young.crawler.config.{CrawlerConfigContants, CrawlerConfig}
+import com.young.crawler.entity.{InjectCounter, UrlInfo, InitSeed, Seed}
 import com.young.crawler.spider.fetcher.support.HttpClientFetcher
 import com.young.crawler.spider.indexer.support.ElasticIndexer
 import com.young.crawler.spider.parser.support.{JsoupParser, HtmlParseParser}
@@ -17,16 +18,26 @@ import scala.io.Source
 class InjectActorTask(fetcher: ActorRef) extends Actor with InjectTask {
   private val log = Logging(context.system, this)
 
+  private val countActor = context.system.actorSelection("akka://" + CrawlerConfig.getConfig.getString(CrawlerConfigContants.young_crawler_appName) + "/user/" + CrawlerConfig.getConfig.getString(CrawlerConfigContants.young_crawler_task_count_name))
+
+
   override def receive: Receive = {
     //初始化注入
     case init: InitSeed =>
       val seeds = initSeeds(init.seedPath, init.fileEncode)
       log.info("init seeds -" + seeds)
-      seeds.map(seed => fetcher ! UrlInfo(seed.url, null))
+      seeds.map(seed => {
+        fetcher ! UrlInfo(seed.url, null)
+        countActor ! InjectCounter(1)
+      })
     //子url注入
     case urls: List[UrlInfo] =>
       log.info("inject urls -" + urls)
-      urls.filter(seed => seed.url.startsWith("http")).map(seed => fetcher ! seed)
+      urls.filter(seed => seed.url.startsWith("http")).map(seed => {
+        fetcher ! seed
+        countActor ! InjectCounter(1)
+      }
+      )
   }
 
   override def initSeeds(seedPath: String, fileEncode: String = "utf-8"): List[Seed] = Source.fromFile(seedPath, fileEncode).getLines().map(line => Seed(line)).toList

@@ -12,6 +12,7 @@ import org.apache.commons.logging.LogFactory
  */
 class HttpClientFetcher extends Fetcher {
   private val log = LogFactory.getLog(classOf[HttpClientFetcher])
+  HttpWatch.WATCH_TYPE = HttpWatch.WATCH_TYPE_PROTOTYPE
   @throws[FetchException]
   override def fetchPage(url: String): Option[HttpResult] = {
     val md5 = MD5Util.md5(url)

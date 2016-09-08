@@ -3,6 +3,7 @@ package com.young.crawler.spider.fetcher.support
 import com.young.crawler.config.{CrawlerConfigContants, CrawlerConfig}
 import com.young.crawler.entity.HttpResult
 import org.apache.commons.io.IOUtils
+import org.apache.http.annotation.NotThreadSafe
 import org.apache.http.client.config.RequestConfig
 import org.apache.http.client.methods.{HttpHead, HttpGet, HttpUriRequest}
 import org.apache.http.impl.client.HttpClients
@@ -38,11 +39,21 @@ class HttpWatch(userAgent: String = "Mozilla/5.0 (X11; U; Linux i686; zh-CN; rv:
     (statusCode, content, message)
   }
 }
-
+@NotThreadSafe
 object HttpWatch {
-  private val httpWatch = new HttpWatch(CrawlerConfig.getConfig.getString(CrawlerConfigContants.young_crawler_fetcher_useragent), CrawlerConfig.getConfig.getString(CrawlerConfigContants.young_crawler_fetcher_timeout).toInt)
+  val WATCH_TYPE_PROTOTYPE = "prototype"
+  val WATCH_TYPE_SINGLETON = "singleton"
+  var WATCH_TYPE = WATCH_TYPE_PROTOTYPE
+  private val httpWatch = getHttpWatch()
 
-  def get(url: String, encode: String = "utf-8"): HttpResult = httpWatch.doGet(url, encode)
+  def get(url: String, encode: String = "utf-8"): HttpResult = getHttpWatch().doGet(url, encode)
 
-  def header(url: String): Array[Header] = httpWatch.doHeader(url)
+  def header(url: String): Array[Header] = getHttpWatch().doHeader(url)
+
+  def getHttpWatch(): HttpWatch = {
+    if (WATCH_TYPE_PROTOTYPE.equals(WATCH_TYPE))
+      new HttpWatch(CrawlerConfig.getConfig.getString(CrawlerConfigContants.young_crawler_fetcher_useragent), CrawlerConfig.getConfig.getString(CrawlerConfigContants.young_crawler_fetcher_timeout).toInt)
+    else
+      httpWatch
+  }
 }
