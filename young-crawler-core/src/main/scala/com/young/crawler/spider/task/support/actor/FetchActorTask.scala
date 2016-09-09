@@ -11,7 +11,7 @@ import com.young.crawler.spider.task.{FetchTask, ParserTask}
  * Created by young.yang on 2016/8/28.
  * 网页抓取任务,采用Actor实现
  */
-class FetchActorTask(fetcher: Fetcher, parserTask: ActorRef) extends Actor with FetchTask {
+private[crawler] class FetchActorTask(fetcher: Fetcher, parserTask: ActorRef) extends Actor with FetchTask {
 
   private val countActor = context.system.actorSelection("akka://" + CrawlerConfig.getConfig.getString(CrawlerConfigContants.young_crawler_appName) + "/user/" + CrawlerConfig.getConfig.getString(CrawlerConfigContants.young_crawler_task_count_name))
 
@@ -23,7 +23,7 @@ class FetchActorTask(fetcher: Fetcher, parserTask: ActorRef) extends Actor with 
     //处理抓取任务
     case page: UrlInfo =>
       injector = sender()
-      val httpResult = fetcher.fetchPage(page.url)
+      val httpResult = fetcher.fetchPage(page)
       countActor ! FetchCounter(1)
       if (!httpResult.isEmpty) {
         parserTask ! httpResult.get

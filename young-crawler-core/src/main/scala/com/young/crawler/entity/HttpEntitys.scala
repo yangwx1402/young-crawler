@@ -17,7 +17,10 @@ case class HttpResult(status:Int,content:String,message:String,url:String){
  * @param url  url
  * @param parent  父url
  */
-case class UrlInfo(url:String,parent:String){
+sealed trait UrlType
+case object SeedType extends UrlType
+case object GenerateType extends UrlType
+case class UrlInfo(url:String,parent:String,urlType: UrlType){
   override def toString()=url+"\n"
 }
 

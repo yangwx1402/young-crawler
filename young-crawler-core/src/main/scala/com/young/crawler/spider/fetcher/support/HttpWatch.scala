@@ -50,7 +50,7 @@ object HttpWatch {
 
   def header(url: String): Array[Header] = getHttpWatch().doHeader(url)
 
-  def getHttpWatch(): HttpWatch = {
+  private def getHttpWatch(): HttpWatch = {
     if (WATCH_TYPE_PROTOTYPE.equals(WATCH_TYPE))
       new HttpWatch(CrawlerConfig.getConfig.getString(CrawlerConfigContants.young_crawler_fetcher_useragent), CrawlerConfig.getConfig.getString(CrawlerConfigContants.young_crawler_fetcher_timeout).toInt)
     else

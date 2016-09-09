@@ -1,6 +1,6 @@
 package com.young.crawler.spider.fetcher
 
-import com.young.crawler.entity.HttpResult
+import com.young.crawler.entity.{UrlInfo, HttpResult}
 import com.young.crawler.exception.FetchException
 import org.apache.http.Header
 
@@ -22,7 +22,7 @@ trait Fetcher {
    * 爬取网页入口
    */
   @throws[FetchException]
-  def fetchPage(url:String):Option[HttpResult]
+  def fetchPage(url:UrlInfo):Option[HttpResult]
 
   /**
    * 根据网页header来探测网页编码

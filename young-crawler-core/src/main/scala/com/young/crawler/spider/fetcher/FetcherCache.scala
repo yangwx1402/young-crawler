@@ -1,6 +1,6 @@
 package com.young.crawler.spider.fetcher
 
-import com.young.crawler.cache.support.MapCache
+import com.young.crawler.cache.Cache
 import com.young.crawler.config.{CrawlerConfigContants, CrawlerConfig}
 
 /**
@@ -9,5 +9,5 @@ import com.young.crawler.config.{CrawlerConfigContants, CrawlerConfig}
  */
 private[crawler] object FetcherCache {
    //val fetcherCache = new MapCache[String,Byte]
-   val fetcherCache : MapCache[String,Byte] = Class.forName(CrawlerConfig.getConfig.getString(CrawlerConfigContants.young_crawler_fetcher_cache_imp)).newInstance().asInstanceOf[(MapCache[String,Byte])]
+   val fetcherCache : Cache[String,Byte] = Class.forName(CrawlerConfig.getConfig.getString(CrawlerConfigContants.young_crawler_fetcher_cache_imp)).newInstance().asInstanceOf[(Cache[String,Byte])]
 }

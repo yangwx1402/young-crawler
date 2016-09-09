@@ -8,7 +8,7 @@ import com.young.crawler.spider.task.CounterTask
  * Created by young.yang on 2016/9/3.
  * 用来对任务进行计数
  */
-class CounterActorTask extends Actor with CounterTask {
+private[crawler] class CounterActorTask extends Actor with CounterTask {
 
   private var fetchCounter = FetchCounter(0)
   private var fetchOk = FetchOk(0)
@@ -33,6 +33,8 @@ class CounterActorTask extends Actor with CounterTask {
     buffer.toString()
   }
 
+  private def getAllCounter():AllCounter = AllCounter(fetchCounter,fetchOk,fetchError,injectCounter,parseCounter,parseChildUrlCounter,indexCounter)
+
   override def receive: Receive = {
     case counter: FetchCounter => fetchCounter = FetchCounter(fetchCounter.num + counter.num)
     case count: FetchOk => fetchOk = FetchOk(count.num + fetchOk.num)
@@ -42,5 +44,6 @@ class CounterActorTask extends Actor with CounterTask {
     case count: ParseChildUrlCounter => parseChildUrlCounter = ParseChildUrlCounter(count.num + parseChildUrlCounter.num)
     case count: IndexCounter => indexCounter = IndexCounter(count.num + indexCounter.num)
     case PrintCounter => sender() ! printCounter()
+    case GetAllCounter => sender() ! getAllCounter
   }
 }

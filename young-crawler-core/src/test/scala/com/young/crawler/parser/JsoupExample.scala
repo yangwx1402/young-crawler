@@ -1,5 +1,6 @@
 package com.young.crawler.parser
 
+import com.young.crawler.entity.{SeedType, UrlInfo}
 import com.young.crawler.spider.fetcher.support.HttpClientFetcher
 import com.young.crawler.spider.parser.support.JsoupParser
 
@@ -8,7 +9,7 @@ import com.young.crawler.spider.parser.support.JsoupParser
  */
 object JsoupExample {
 
-  def parserHtml(url:String): Unit ={
+  def parserHtml(url:UrlInfo): Unit ={
     val fetcher = new HttpClientFetcher
     val parser = new JsoupParser
     val page = fetcher.fetchPage(url)
@@ -23,7 +24,7 @@ object JsoupExample {
 
   def main(args: Array[String]) {
     val url = "http://bj.fang.com/"
-    JsoupExample.parserHtml(url)
+    JsoupExample.parserHtml(UrlInfo(url,"",SeedType))
 
   }
 }

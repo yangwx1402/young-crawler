@@ -17,5 +17,8 @@ private[crawler] object CrawlerConfigContants {
   val young_crawler_fetcher_useragent = "young.crawler.fetcher.useragent"
   val young_crawler_indexer_es_host = "young.crawler.indexer.es.host"
   val young_crawler_indexer_es_port = "young.crawler.indexer.es.port"
+  val young_crawler_indexer_es_name = "young.crawler.indexer.es.name"
+  val young_crawler_indexer_es_type = "young.crawler.indexer.es.type"
+  val young_cralwer_fetcher_friendtime = "young.cralwer.fetcher.friendtime"
 
 }

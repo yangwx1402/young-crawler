@@ -7,7 +7,7 @@ import com.google.common.hash.Hashing
 /**
  * Created by dell on 2016/8/31.
  */
-object MD5Util {
+private[crawler] object MD5Util {
 
   def md5(line: String) = Hashing.md5().newHasher().putString(line, Charset.defaultCharset()).hash().toString
 
