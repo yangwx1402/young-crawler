@@ -2,21 +2,38 @@ package com.young.crawler.spider.task.support.actor
 
 import akka.actor.{ActorRef, Actor}
 import akka.event.Logging
-import com.young.crawler.entity.{HttpPage, HttpResult}
+import com.young.crawler.config.{CrawlerConfigContants, CrawlerConfig}
+import com.young.crawler.entity.{ParseChildUrlCounter, ParseCounter, HttpPage, HttpResult}
 import com.young.crawler.spider.parser.Parser
 import com.young.crawler.spider.task.ParserTask
 
 /**
  * Created by young.yang on 2016/8/28.
+ * 解析任务
  */
-class ParseActorTask(parser: Parser,indexTask:ActorRef) extends Actor with ParserTask {
+private[crawler] class ParseActorTask(parser: Parser, indexTask: ActorRef) extends Actor with ParserTask {
 
   private val log = Logging(context.system, this)
 
+  private val countActor = context.system.actorSelection("akka://" + CrawlerConfig.getConfig.getString(CrawlerConfigContants.young_crawler_appName) + "/user/" + CrawlerConfig.getConfig.getString(CrawlerConfigContants.young_crawler_task_count_name))
+
+  private val fetchDeep = CrawlerConfig.getConfig.getString(CrawlerConfigContants.young_crawler_fetcher_deep).toInt
+
+  private var fetcher: ActorRef = null
+
   override def receive: Receive = {
     case httpResult: HttpResult =>
-      val page:HttpPage = parser.parse(httpResult)
-      indexTask!page
-      log.info("ParserTask send IndexerTask a index request -["+page+"]")
+      fetcher = sender()
+      val page: HttpPage = parser.parse(httpResult)
+      indexTask ! page
+      countActor ! ParseCounter(1)
+      log.info("ParserTask send IndexerTask a index request -[" + page + "]")
+      val childLinks = page.getChildLink
+      if(childLinks._2<fetchDeep) {
+        fetcher ! childLinks._1
+        countActor ! ParseChildUrlCounter(childLinks._1.size)
+      }else{
+        log.info("fetch deep size now  is -["+childLinks._2+"] remove urls size -["+childLinks._1.size+"]")
+      }
   }
 }

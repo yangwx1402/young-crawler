@@ -2,7 +2,6 @@ package com.young.crawler.indexer
 
 import java.net.InetAddress
 
-import com.sksamuel.elastic4s.ElasticClient
 import com.young.crawler.entity.PageIndexEntity
 import com.young.crawler.spider.indexer.IndexerConstants
 import com.young.crawler.utils.{JsonUtil, MD5Util}
@@ -19,7 +18,7 @@ object Elastic4sExample {
   def main(args: Array[String]) {
     val page = new PageIndexEntity
     page.setAuthor("杨勇")
-    page.setContent("中华人民共和国")
+    page.setContent("中华人民共和過")
     page.setTitle("测试")
     page.setUrl("http://www.baidu.com/1")
     page.setPublishTime(System.currentTimeMillis())

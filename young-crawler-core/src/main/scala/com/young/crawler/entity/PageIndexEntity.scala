@@ -4,6 +4,7 @@ import scala.beans.BeanProperty
 
 /**
  * Created by dell on 2016/8/31.
+ * 索引信息
  */
 class PageIndexEntity {
   @BeanProperty
@@ -18,5 +19,8 @@ class PageIndexEntity {
   var updateTime: Long = 0
   @BeanProperty
   var author: String = ""
-
+  @BeanProperty
+  var keywords:String =""
+  @BeanProperty
+  var desc:String = ""
 }
