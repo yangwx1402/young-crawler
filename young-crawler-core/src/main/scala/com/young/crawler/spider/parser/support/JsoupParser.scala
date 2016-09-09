@@ -1,6 +1,6 @@
 package com.young.crawler.spider.parser.support
 
-import com.young.crawler.entity.{GenerateType, UrlInfo, HttpPage, HttpResult}
+import com.young.crawler.entity.{GenerateType, HttpPage, HttpResult, UrlInfo}
 import com.young.crawler.spider.parser.Parser
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
@@ -36,15 +36,15 @@ private[crawler] class JsoupParser extends Parser {
   /**
    * 解析子url
    */
-  private def parserUrls(urls: Elements): List[UrlInfo] = {
+  private def parserUrls(urls: Elements, deep: Int): (List[UrlInfo],Int) = {
     val list = new ListBuffer[UrlInfo]()
     for (i <- 0 until urls.size()) {
       val element = urls.get(i)
       val url = element.attr("href")
       if (url.startsWith("http"))
-        list.append(UrlInfo(url, "",GenerateType))
+        list.append(UrlInfo(url, "", GenerateType, deep + 1))
     }
-    list.toList
+    (list.toList,deep+1)
   }
 
   /**
@@ -64,7 +64,7 @@ private[crawler] class JsoupParser extends Parser {
     htmlPage.setUrl(html.url)
     htmlPage.setKeywords(getMeta(KEYWORDS, meta))
     htmlPage.setDesc(getMeta(DESCRIPTION, meta))
-    htmlPage.setChildLink(parserUrls(document.body().select("a")))
+    htmlPage.setChildLink(parserUrls(document.body().select("a"),html.deep))
     htmlPage
   }
 }

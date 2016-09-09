@@ -1,7 +1,7 @@
 package com.young.crawler.spider.fetcher.support
 
 import com.young.crawler.config.{CrawlerConfigContants, CrawlerConfig}
-import com.young.crawler.entity.HttpResult
+import com.young.crawler.entity.{UrlInfo, HttpResult}
 import org.apache.commons.io.IOUtils
 import org.apache.http.annotation.NotThreadSafe
 import org.apache.http.client.config.RequestConfig
@@ -19,10 +19,10 @@ class HttpWatch(userAgent: String = "Mozilla/5.0 (X11; U; Linux i686; zh-CN; rv:
   private val httpClient = HttpClients.custom().setUserAgent(userAgent).setMaxConnTotal(poolSize)
     .setMaxConnPerRoute(poolSize).setDefaultRequestConfig(defaultRequestConfig).build();
 
-  private def doGet(url: String, encode: String = "utf-8"): HttpResult = {
-    val get = new HttpGet(url)
+  private def doGet(url: UrlInfo, encode: String = "utf-8"): HttpResult = {
+    val get = new HttpGet(url.url)
     val result = sendRequest(get, encode)
-    HttpResult(result._1, result._2, result._3, url)
+    HttpResult(result._1, result._2, result._3, url.url,url.deep)
   }
 
   private def doHeader(url: String): Array[Header] = {
@@ -46,7 +46,7 @@ object HttpWatch {
   var WATCH_TYPE = WATCH_TYPE_PROTOTYPE
   private val httpWatch = getHttpWatch()
 
-  def get(url: String, encode: String = "utf-8"): HttpResult = getHttpWatch().doGet(url, encode)
+  def get(url:UrlInfo, encode: String = "utf-8"): HttpResult = getHttpWatch().doGet(url, encode)
 
   def header(url: String): Array[Header] = getHttpWatch().doHeader(url)
 

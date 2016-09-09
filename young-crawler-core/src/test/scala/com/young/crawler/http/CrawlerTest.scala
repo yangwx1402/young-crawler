@@ -1,5 +1,6 @@
 package com.young.crawler.http
 
+import com.young.crawler.entity.{SeedType, UrlInfo}
 import com.young.crawler.spider.fetcher.support.HttpWatch
 
 /**
@@ -9,7 +10,7 @@ object CrawlerTest {
 
   def main(args: Array[String]) {
     val url = "http://www.sina.com.cn"
-    val result = HttpWatch.get(url)
+    val result = HttpWatch.get(UrlInfo(url,"",SeedType,0))
     println(result.content)
     println(result.status)
   }

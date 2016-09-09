@@ -19,12 +19,12 @@ object JsoupExample {
     val result = parser.parse(page.get)
     println(result.keywords)
     println(result.desc)
-    result.childLink.foreach(println _)
+    result.childLink._1.foreach(println _)
   }
 
   def main(args: Array[String]) {
     val url = "http://bj.fang.com/"
-    JsoupExample.parserHtml(UrlInfo(url,"",SeedType))
+    JsoupExample.parserHtml(UrlInfo(url,"",SeedType,0))
 
   }
 }

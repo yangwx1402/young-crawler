@@ -8,19 +8,20 @@ import scala.beans.BeanProperty
  * Created by young.yang on 2016/8/28.
  * 通过爬取回来的http原始页面
  */
-case class HttpResult(status:Int,content:String,message:String,url:String){
+case class HttpResult(status:Int,content:String,message:String,url:String,deep:Int){
   override def toString()="status="+status+",context length="+content.length+",url="+url
 }
 
+
+sealed trait UrlType
+case object SeedType extends UrlType
+case object GenerateType extends UrlType
 /**
  * 爬取url类
  * @param url  url
  * @param parent  父url
  */
-sealed trait UrlType
-case object SeedType extends UrlType
-case object GenerateType extends UrlType
-case class UrlInfo(url:String,parent:String,urlType: UrlType){
+case class UrlInfo(url:String,parent:String,urlType: UrlType,deep:Int){
   override def toString()=url+"\n"
 }
 
@@ -61,7 +62,7 @@ class HttpPage{
   @BeanProperty
   var desc:String = ""
   @BeanProperty
-  var childLink:List[UrlInfo] = List()
+  var childLink:(List[UrlInfo],Int) = (List(),0)
   @BeanProperty
   var meta:Map[String,String] = Map()
 

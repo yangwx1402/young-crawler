@@ -34,7 +34,7 @@ private[crawler] class HttpClientFetcher extends Fetcher {
       log.info("get " + url + " encode =" + encode)
       val start = System.currentTimeMillis()
       Thread.sleep(friendtime)
-      val result = HttpWatch.get(url.url, encode)
+      val result = HttpWatch.get(url, encode)
       log.info("fetch url " + url + ", cost time -" + (System.currentTimeMillis() - start) + " content length -" + result.content.length)
       if (result.status == FETCH_SUCCESS) {
         Option(result)

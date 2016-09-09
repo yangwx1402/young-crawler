@@ -17,6 +17,8 @@ private[crawler] class ParseActorTask(parser: Parser, indexTask: ActorRef) exten
 
   private val countActor = context.system.actorSelection("akka://" + CrawlerConfig.getConfig.getString(CrawlerConfigContants.young_crawler_appName) + "/user/" + CrawlerConfig.getConfig.getString(CrawlerConfigContants.young_crawler_task_count_name))
 
+  private val fetchDeep = CrawlerConfig.getConfig.getString(CrawlerConfigContants.young_crawler_fetcher_deep).toInt
+
   private var fetcher: ActorRef = null
 
   override def receive: Receive = {
@@ -27,7 +29,11 @@ private[crawler] class ParseActorTask(parser: Parser, indexTask: ActorRef) exten
       countActor ! ParseCounter(1)
       log.info("ParserTask send IndexerTask a index request -[" + page + "]")
       val childLinks = page.getChildLink
-      fetcher ! childLinks
-      countActor ! ParseChildUrlCounter(childLinks.size)
+      if(childLinks._2<fetchDeep) {
+        fetcher ! childLinks._1
+        countActor ! ParseChildUrlCounter(childLinks._1.size)
+      }else{
+        log.info("fetch deep size now  is -["+childLinks._2+"] remove urls size -["+childLinks._1.size+"]")
+      }
   }
 }

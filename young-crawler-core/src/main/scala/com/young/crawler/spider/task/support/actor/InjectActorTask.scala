@@ -27,7 +27,7 @@ private[crawler] class InjectActorTask(fetcher: ActorRef) extends Actor with Inj
       val seeds = initSeeds(init.seedPath, init.fileEncode)
       log.info("init seeds -" + seeds)
       seeds.map(seed => {
-        fetcher ! UrlInfo(seed.url, null,SeedType)
+        fetcher ! UrlInfo(seed.url, null,SeedType,0)
         countActor ! InjectCounter(1)
       })
     //子url注入
