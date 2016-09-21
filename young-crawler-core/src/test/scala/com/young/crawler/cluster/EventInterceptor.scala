@@ -80,13 +80,16 @@ class EventInterceptor extends ClusterRoledWorker {
   }
 }
 
-object EventInterceptor extends App {
-  Seq("2851", "2852").foreach { port =>
-    val config = ConfigFactory.parseString("akka.remote.netty.tcp.port=" + port)
-      .withFallback(ConfigFactory.parseString("akka.cluster.roles = [interceptor]"))
-      .withFallback(ConfigFactory.load())
-    val system = ActorSystem("event-cluster-system", config)
-    val processingActor = system.actorOf(Props[EventInterceptor], name = "interceptingActor")
-    system.log.info("Processing Actor: " + processingActor)
+object EventInterceptor {
+  def main(args: Array[String]) {
+    Seq("2851", "2852").foreach { port =>
+      val config = ConfigFactory.parseString("akka.remote.netty.tcp.port=" + port)
+        .withFallback(ConfigFactory.parseString("akka.cluster.roles = [interceptor]"))
+        .withFallback(ConfigFactory.load())
+      val system = ActorSystem("event-cluster-system", config)
+      val processingActor = system.actorOf(Props[EventInterceptor], name = "interceptingActor")
+      system.log.info("Processing Actor: " + processingActor)
+    }
   }
+
 }

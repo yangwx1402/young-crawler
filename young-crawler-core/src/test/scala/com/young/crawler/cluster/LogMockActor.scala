@@ -1,14 +1,14 @@
 package com.young.crawler.cluster
 
-import akka.actor.{Props, ActorSystem, ActorRef, Actor}
+import akka.actor.{ActorRef, ActorSystem, Props}
 import com.typesafe.config.ConfigFactory
 
 /**
  * Created by dell on 2016/9/19.
  */
-object LogMockActor{
+object LogMockActor {
 
-  val ports = Seq("2751","2752", "2753")
+  val ports = Seq("2751", "2752", "2753")
 
   val actors = scala.collection.mutable.HashMap[String, ActorRef]()
 
@@ -32,16 +32,15 @@ object LogMockActor{
   ports.foreach { port =>
     // 创建一个Config对象
     val config = ConfigFactory.parseString("akka.remote.netty.tcp.port=" + port)
-    .withFallback(ConfigFactory.parseString("akka.cluster.roles = [collector]"))
-    .withFallback(ConfigFactory.load())
+      .withFallback(ConfigFactory.parseString("akka.cluster.roles = [collector]"))
+      .withFallback(ConfigFactory.load())
     // 创建一个ActorSystem实例
     val system = ActorSystem("event-cluster-system", config)
     actors(port) = system.actorOf(Props[EventCollector], name = "collectingActor")
   }
 
   Thread.sleep(30000)
-  for(i<-0 to 10){
-    // 使用Akka的Scheduler，模拟定时发送日志记录消息
+  for (i <- 0 to 10) {
     ports.foreach { port =>
       events(port).foreach { line =>
         println("RAW: port=" + port + ", line=" + line)

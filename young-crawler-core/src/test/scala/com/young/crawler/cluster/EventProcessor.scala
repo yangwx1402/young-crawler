@@ -1,9 +1,10 @@
 package com.young.crawler.cluster
 
-import akka.actor.{ActorPath, RootActorPath}
+import akka.actor.{ActorPath, ActorSystem, Props, RootActorPath}
 import akka.cluster.ClusterEvent._
 import akka.cluster.Member
 import akka.cluster.protobuf.msg.ClusterMessages.MemberStatus
+import com.typesafe.config.ConfigFactory
 
 /**
  * Created by dell on 2016/9/19.
@@ -35,4 +36,20 @@ class EventProcessor extends ClusterRoledWorker {
   private def process(eventCode: String, line: String, eventDate: String, realIp: String): Map[String,String] = {
     Map[String,String]()
   }
+}
+
+object EventProcessor{
+  def main(args: Array[String]) {
+    // 启动了5个EventProcessor
+    Seq("2951","2952", "2953", "2954", "2955") foreach { port =>
+      val config = ConfigFactory.parseString("akka.remote.netty.tcp.port=" + port)
+        .withFallback(ConfigFactory.parseString("akka.cluster.roles = [processor]"))
+        .withFallback(ConfigFactory.load())
+      val system = ActorSystem("event-cluster-system", config)
+      val processingActor = system.actorOf(Props[EventProcessor], name = "processingActor")
+      system.log.info("Processing Actor: " + processingActor)
+  }
+
+  }
+
 }
