@@ -23,7 +23,7 @@ private[crawler] class FetchActorTask(fetcher: Fetcher, parserTask: ActorRef) ex
     //处理抓取任务
     case page: UrlInfo =>
       injector = sender()
-      val httpResult = fetcher.fetchPage(page)
+      val httpResult = fetcher.fetch(page)
       countActor ! FetchCounter(1)
       if (!httpResult.isEmpty) {
         parserTask ! httpResult.get

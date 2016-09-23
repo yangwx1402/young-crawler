@@ -3,7 +3,7 @@ package com.young.crawler.spider.fetcher.support
 import com.young.crawler.config.{CrawlerConfig, CrawlerConfigContants}
 import com.young.crawler.entity.{GenerateType, HttpResult, UrlInfo}
 import com.young.crawler.exception.FetchException
-import com.young.crawler.spider.fetcher.{Fetcher, FetcherCache}
+import com.young.crawler.spider.fetcher.{FetchFilter, Fetcher, FetcherCache}
 import com.young.crawler.utils.MD5Util
 import org.apache.commons.logging.LogFactory
 
@@ -15,19 +15,10 @@ private[crawler] class HttpClientFetcher extends Fetcher {
 
   private val friendtime = CrawlerConfig.getConfig.getString(CrawlerConfigContants.young_cralwer_fetcher_friendtime).toLong
 
-  private val log = LogFactory.getLog(classOf[HttpClientFetcher])
   HttpWatch.WATCH_TYPE = HttpWatch.WATCH_TYPE_PROTOTYPE
 
   @throws[FetchException]
   override def fetchPage(url: UrlInfo): Option[HttpResult] = {
-    val md5 = MD5Util.md5(url.url)
-    log.info("fetcher cache size -" + FetcherCache.fetcherCache.size())
-    if (url.urlType == GenerateType && FetcherCache.fetcherCache.contains(md5)) {
-      log.info("url  -" + url + " is fetched ")
-      return None
-    } else {
-      FetcherCache.fetcherCache.put(md5, 1)
-    }
     try {
       val headers = HttpWatch.header(url.url)
       val encode = getEncode(headers)

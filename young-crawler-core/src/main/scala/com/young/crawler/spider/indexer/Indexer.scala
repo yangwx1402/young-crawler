@@ -1,7 +1,10 @@
 package com.young.crawler.spider.indexer
 
+import java.util.{Locale, ResourceBundle}
+
 import com.young.crawler.config.{CrawlerConfig, CrawlerConfigContants}
 import com.young.crawler.entity.{HttpPage, IndexResult}
+import com.young.crawler.exception.IndexException
 
 /**
  * Created by dell on 2016/8/29.
@@ -9,12 +12,23 @@ import com.young.crawler.entity.{HttpPage, IndexResult}
  */
 trait Indexer {
 
+  private val indexFilter = Class.forName(CrawlerConfig.getConfig.getString(CrawlerConfigContants.young_crawler_indexer_filter_imp)).asInstanceOf[IndexFilter]
   /**
    * 文档索引
    * @param page
    * @return
    */
-  def index(page: HttpPage): IndexResult
+
+  @throws[IndexException]
+  def indexPage(page: HttpPage): IndexResult
+
+  @throws[IndexException]
+  def index(page:HttpPage):IndexResult={
+    if(!indexFilter.filter(page)){
+      return IndexResult(-1)
+    }
+    indexPage(page)
+  }
 }
 
 /**

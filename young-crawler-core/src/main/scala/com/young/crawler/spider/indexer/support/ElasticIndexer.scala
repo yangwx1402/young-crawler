@@ -4,6 +4,7 @@ import java.net.InetAddress
 
 import com.young.crawler.config.{CrawlerConfigContants, CrawlerConfig}
 import com.young.crawler.entity.{PageIndexEntity, IndexResult, HttpPage}
+import com.young.crawler.exception.IndexException
 import com.young.crawler.spider.indexer.{IndexerConstants, Indexer}
 import com.young.crawler.utils.{JsonUtil, MD5Util}
 import org.apache.commons.logging.LogFactory
@@ -29,7 +30,8 @@ private[crawler] class ElasticIndexer extends Indexer{
    * @param htmlpage
    * @return
    */
-  override def index(htmlpage: HttpPage): IndexResult = {
+  @throws[IndexException]
+  override def indexPage(htmlpage: HttpPage): IndexResult = {
     log.info("index page url "+htmlpage.getUrl+" page info -["+htmlpage+"]")
     val page = new PageIndexEntity
     page.setAuthor(htmlpage.getAuthor)
