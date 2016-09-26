@@ -9,5 +9,5 @@ class DomainPrefixFetcherFilter extends FetchFilter{
 
   private val prefixSet = plugin_fetcher_config.getString("young.crawler.indexer.filter.prefix").split(",").toSet
 
-  override def filter(url: String): Boolean = true
+  override def filter(url: String): Boolean = false
 }

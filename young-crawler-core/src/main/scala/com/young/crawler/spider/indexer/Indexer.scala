@@ -12,7 +12,7 @@ import com.young.crawler.exception.IndexException
  */
 trait Indexer {
 
-  private val indexFilter = Class.forName(CrawlerConfig.getConfig.getString(CrawlerConfigContants.young_crawler_indexer_filter_imp)).asInstanceOf[IndexFilter]
+  private val indexFilter = Class.forName(CrawlerConfig.getConfig.getString(CrawlerConfigContants.young_crawler_indexer_filter_imp)).newInstance().asInstanceOf[IndexFilter]
   /**
    * 文档索引
    * @param page

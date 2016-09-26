@@ -21,7 +21,7 @@ trait Fetcher {
 
   val URL_NOT_FOUND = 404
 
-  private val fetchFilter = Class.forName(CrawlerConfig.getConfig.getString(CrawlerConfigContants.young_crawler_fetcher_filter_imp)).asInstanceOf[FetchFilter]
+  private val fetchFilter = Class.forName(CrawlerConfig.getConfig.getString(CrawlerConfigContants.young_crawler_fetcher_filter_imp)).newInstance().asInstanceOf[FetchFilter]
 
   val log = LogFactory.getLog(classOf[Fetcher])
 
