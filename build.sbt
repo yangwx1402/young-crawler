@@ -12,6 +12,7 @@ val jackson_version = "1.9.13"
 val jsoup_version = "1.8.3"
 val commons_logging_version = "1.2"
 val jedis_version = "2.8.1"
+val slick_version = "3.1.1"
 val codePro = Seq("-unchecked", "-deprecation", "-encoding", "utf8")
 val resources = Seq("Typesafe Repository" at "http://repo.typesafe.com/typesafe/releases/",
   "Maven Repository" at "http://repo1.maven.org/maven2/",
@@ -36,7 +37,11 @@ libraryDependencies += "com.typesafe.akka" %% "akka-actor" % akka_version,
   libraryDependencies += "org.codehaus.jackson" % "jackson-mapper-asl" % jackson_version,
   libraryDependencies += "org.jsoup" % "jsoup" % jsoup_version,
   libraryDependencies += "commons-logging" % "commons-logging" % commons_logging_version,
-  libraryDependencies += "redis.clients" % "jedis" % jedis_version
+  libraryDependencies += "redis.clients" % "jedis" % jedis_version,
+  libraryDependencies += "com.typesafe.slick" %% "slick" % slick_version,
+  libraryDependencies += "org.slf4j" % "slf4j-nop" % "1.6.4",
+  libraryDependencies += "com.typesafe.slick" %% "slick-hikaricp" % slick_version,
+  libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.37"
 )
 
 val root = Project("young-crawler", file(".")).settings(publish := {}).settings(publishArtifact := false)
